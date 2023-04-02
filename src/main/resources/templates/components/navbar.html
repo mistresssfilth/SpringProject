@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="navbar">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-3">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/}">Главная</a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/message}">Сообщения</a>
+                        </li>
+                        <li class="nav-item">
+                            <th:block th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"> <a class="nav-link" th:href="@{/admin}">Панель администратора</a> </th:block>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        <form action="/login">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button sec:authorize="!isAuthenticated()" type="submit" class="btn btn-outline-dark me-3"> Войти </button>
+            </div>
+        </form>
+        <form action="/registration">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button sec:authorize="!isAuthenticated()" type="submit" class="btn btn-outline-dark me-3"> Зарегистрироваться </button>
+            </div>
+        </form>
+        <form action="/logout" method="post">
+            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="submit" class="btn btn-outline-dark me-3" sec:authorize="isAuthenticated()" name="logout">Выйти </button>
+            </div>
+        </form>
+    </nav>
+
+</div>
+</body>
+</html>

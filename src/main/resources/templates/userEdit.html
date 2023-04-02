@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/edit" method="post">
+    <input type="text" name="username" th:placeholder="${user.username}">
+    <div th:each="role : ${user.getRoles()}">
+    <input type="checkbox" name="${role.getName()}" th:checked="${role.getName} == ROLE_USER"> <label th:text="${role.getName()}"></label>
+    <input type="checkbox" name="${role.getName()}" th:checked="${role.getName} == ROLE_ADMIN"> <label th:text="${role.getName()}"></label>
+    </div>
+    <input type="hidden" value="${user.id}" name="userId">
+    <input type="hidden" value="${_csrf.token}" name="_csrf">
+    <button type="submit"> Изменить </button>
+</form>
+<ul>
+    <li th:each="role : ${user.getRoles()}" th:text="${role.getName()}">Список ролей</li>
+</ul>
+</body>
+</html>
